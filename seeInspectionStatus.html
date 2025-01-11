@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Inspection</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /* Reset basic styles */
+      body,
+      h2,
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+
+      header {
+        background-color: Red;
+        color: white;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .logo img {
+        height: 50px;
+      }
+
+      .contact-info {
+        font-size: 14px;
+      }
+
+      .contact-info a,
+      .social-icons a {
+        color: white;
+        text-decoration: none;
+        margin-right: 15px;
+        transition: color 0.3s ease;
+      }
+
+      .contact-info a:hover,
+      .social-icons a:hover {
+        color: #f1faee;
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 10px;
+      }
+
+      .office-hours {
+        font-size: 14px;
+      }
+
+      main {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #1d3557;
+      }
+
+      .cta-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        max-width: 500px;
+        margin: 10px 0;
+        padding: 10px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .cta-row input[type="email"] {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        flex: 1;
+        margin-right: 10px;
+      }
+
+      button {
+        background-color: blue;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+
+      button:hover {
+        background-color: #003366;
+        transform: translateY(-2px);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .label,
+      .status {
+        font-size: 16px;
+        color: #333;
+      }
+
+      .status {
+        font-weight: bold;
+        text-align: right;
+        flex: 1;
+      }
+
+      footer {
+        background-color: #003366;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+
+      footer p {
+        margin: 0;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="logo">
+        <img src="logo.png" alt="LEC Logo" />
+      </div>
+      <div class="contact-info">
+        <a href="tel:+26662274000"
+          ><i class="fab fa-whatsapp"></i> +266 62274000</a
+        >
+        <a href="tel:+26680022000"
+          ><i class="fas fa-phone-alt"></i> +266 8002 2000</a
+        >
+        <a href="mailto:pr@lec.co.ls"
+          ><i class="fas fa-envelope"></i> pr@lec.co.ls</a
+        >
+      </div>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+      </div>
+      <div class="office-hours">
+        <i class="fas fa-clock"></i> Office hrs: Mon - Fri: 8:00 - 17:00
+      </div>
+    </header>
+
+    <main>
+      <h2>Book Inspection</h2>
+      <div class="cta-row">
+        <div class="label">Enter your email</div>
+        <input type="email" id="user-email" placeholder="Enter email here" />
+        <button onclick="fetchInspectionDetails()">Apply (Book)</button>
+      </div>
+
+      <div class="cta-row">
+        <div class="label">Inspection date</div>
+        <div class="status" id="inspection-date-display">Pending</div>
+      </div>
+
+      <div class="cta-row">
+        <div class="label">Inspector</div>
+        <div class="status" id="inspector-display">Pending</div>
+      </div>
+
+      <div class="cta-row">
+        <div class="label">State</div>
+        <div class="status" id="state-display">Pending</div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 Lesotho Electricity Company. All rights reserved.</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script>
+      // Your Firebase configuration
+      var firebaseConfig = {
+        apiKey: "YOUR_API_KEY", // Replace with your actual API key
+        authDomain: "interact-cff6c.firebaseapp.com",
+        databaseURL: "https://interact-cff6c-default-rtdb.firebaseio.com/",
+        projectId: "interact-cff6c",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Fetch inspection details
+      function fetchInspectionDetails() {
+        var email = document.getElementById("user-email").value;
+
+        if (!email) {
+          alert("Please enter an email.");
+          return;
+        }
+
+        firebase
+          .database()
+          .ref("UserApplicationForTesting")
+          .orderByChild("email")
+          .equalTo(email)
+          .once("value")
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              snapshot.forEach((childSnapshot) => {
+                var data = childSnapshot.val();
+                document.getElementById("inspection-date-display").innerText =
+                  data.inspectionDate || "Pending";
+                document.getElementById("inspector-display").innerText =
+                  data.inspectorName || "Pending";
+                document.getElementById("state-display").innerText =
+                  data.state || "Pending";
+              });
+            } else {
+              alert("No inspection details found for this email.");
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching data: ", error);
+          });
+      }
+    </script>
+  </body>
+</html>

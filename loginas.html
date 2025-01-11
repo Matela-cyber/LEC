@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LEC Login as</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: white;
+      }
+
+      .container {
+        text-align: center;
+        margin: 50px auto;
+        max-width: 600px;
+        padding: 20px;
+        border: 1px solid #ccc;
+      }
+
+      header {
+        margin-bottom: 20px;
+      }
+
+      .logo {
+        width: 150px;
+      }
+
+      h1 {
+        color: red;
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+
+      .buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      button {
+        width: 300px;
+        padding: 15px;
+        margin: 10px 0;
+        font-size: 1.2em;
+        background-color: blue;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+
+      button:hover {
+        background-color: darkblue;
+      }
+
+      footer {
+        margin-top: 30px;
+      }
+
+      .contact-info {
+        color: #555;
+        font-size: 0.9em;
+      }
+
+      .contact-info p {
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <img src="logo.png" alt="LEC Logo" class="logo" />
+      </header>
+      <h1>Login as:</h1>
+      <div class="buttons">
+        <a href="customerlogin.html">
+          <button>Customer</button>
+        </a>
+        <a href="eletricianlogin.html">
+          <button>Electricians</button>
+        </a>
+        <a href="lecstafflogin.html">
+          <button>LEC Administrative Staff</button>
+        </a>
+        <a href="inspectorlogin.html">
+          <button>Inspector</button>
+        </a>
+      </div>
+
+      <footer>
+        <div class="contact-info">
+          <p>Call us: +266 62274000 | +266 8002 2000</p>
+          <p>Email: pr@lec.co.ls</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Electrician Login</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: white;
+        text-align: center;
+      }
+
+      .login-form {
+        margin-top: 50px;
+      }
+
+      .login-form1 {
+        background-color: #003366;
+        width: 100%;
+        max-width: 400px;
+        padding: 20px;
+        margin: 0 auto;
+        border-radius: 8px;
+      }
+
+      header {
+        background-color: red;
+        color: white;
+        padding: 10px 20px;
+      }
+
+      .header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .logo img {
+        height: 50px;
+      }
+
+      .contact-info {
+        font-size: 14px;
+        text-align: left;
+        margin-top: 5px;
+      }
+
+      .contact-info a {
+        color: white;
+        text-decoration: none;
+        margin-right: 15px;
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 10px;
+        margin-top: 5px;
+      }
+
+      .social-icons a {
+        color: white;
+        text-decoration: none;
+      }
+
+      .office-hours {
+        font-size: 14px;
+        margin-top: 5px;
+      }
+
+      form {
+        text-align: left;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        width: 100%;
+      }
+
+      label {
+        display: block;
+        margin: 10px 0 5px;
+        font-size: 18px;
+        color: #0000ff;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+
+      .password-container {
+        position: relative;
+      }
+
+      .password-container input {
+        padding-right: 40px;
+      }
+
+      .password-container i {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
+
+      .login-btn {
+        background-color: #ff0000;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 18px;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .login-btn:hover {
+        background-color: #cc0000;
+      }
+
+      @media (max-width: 600px) {
+        .login-form1 {
+          width: 90%;
+        }
+
+        .header-top {
+          flex-direction: column;
+        }
+
+        .contact-info,
+        .social-icons {
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-top">
+        <div class="logo">
+          <img src="logo.png" alt="LEC Logo" />
+        </div>
+        <div class="contact-info">
+          <a href="tel:+26662274000"
+            ><i class="fab fa-whatsapp"></i> +266 62274000</a
+          >
+          <a href="tel:+26680022000"
+            ><i class="fas fa-phone-alt"></i> +266 8002 2000</a
+          >
+          <a href="mailto:pr@lec.co.ls"
+            ><i class="fas fa-envelope"></i> pr@lec.co.ls</a
+          >
+        </div>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+        <div class="office-hours">
+          <i class="fas fa-clock"></i> Office hrs: Mon - Fri: 8:00 - 17:00
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="login-form">
+        <form id="login-form" class="login-form1">
+          <input
+            type="text"
+            id="login-email"
+            placeholder="Phone number/email"
+            required
+          />
+
+          <div class="password-container">
+            <input
+              type="password"
+              id="login-password"
+              placeholder="Enter password"
+              required
+            />
+            <i class="far fa-eye" id="togglePassword"></i>
+          </div>
+
+          <button type="submit" class="login-btn" id="login">Login</button>
+        </form>
+      </div>
+    </main>
+
+    <!-- Firebase JS SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+    <script>
+      // Toggle password visibility
+      const togglePassword = document.querySelector("#togglePassword");
+      const password = document.querySelector("#login-password");
+
+      togglePassword.addEventListener("click", function () {
+        const type =
+          password.getAttribute("type") === "password" ? "text" : "password";
+        password.setAttribute("type", type);
+        this.classList.toggle("fa-eye-slash");
+      });
+
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        databaseURL: "https://interact-cff6c-default-rtdb.firebaseio.com/",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID",
+      };
+      firebase.initializeApp(firebaseConfig);
+
+      // Add an event listener to the login form
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const emailOrPhone = document.getElementById("login-email").value;
+          const password = document.getElementById("login-password").value;
+
+          const electricianRef = firebase.database().ref("electrician");
+          electricianRef.once("value", (snapshot) => {
+            const electricians = snapshot.val();
+            let loginSuccess = false;
+
+            for (let key in electricians) {
+              const electrician = electricians[key];
+              if (
+                (electrician.email === emailOrPhone ||
+                  electrician["Phone Number"] === emailOrPhone) &&
+                electrician.password === password
+              ) {
+                loginSuccess = true;
+                break;
+              }
+            }
+
+            if (loginSuccess) {
+              window.location.href = "electricianForm.html";
+            } else {
+              alert(
+                "Invalid email/phone number or password. Please try again."
+              );
+            }
+          });
+        });
+    </script>
+  </body>
+</html>

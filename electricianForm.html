@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LEC Application Form</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+      }
+      .form-container {
+        width: 50%;
+        margin: 5% auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+      }
+      input[type="file"] {
+        padding: 3px;
+      }
+      button {
+        background-color: red;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+      }
+      button:hover {
+        background-color: rgb(143, 0, 0);
+      }
+      .checkbox-group label {
+        display: inline-block;
+        margin-right: 10px;
+      }
+      .checkbox-group input {
+        margin-right: 5px;
+      }
+      header {
+        background-color: red;
+        color: white;
+        padding: 10px 20px;
+      }
+
+      .header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .logo img {
+        height: 50px;
+      }
+
+      .contact-info {
+        font-size: 14px;
+        text-align: left;
+        margin-top: 5px;
+      }
+
+      .contact-info a {
+        color: white;
+        text-decoration: none;
+        margin-right: 15px;
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 10px;
+        margin-top: 5px;
+      }
+
+      .social-icons a {
+        color: white;
+        text-decoration: none;
+      }
+
+      .office-hours {
+        font-size: 14px;
+        margin-top: 5px;
+      }
+    </style>
+    <!-- Include Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="header-top">
+        <div class="logo">
+          <img src="logo.png" alt="LEC Logo" />
+        </div>
+        <div class="contact-info">
+          <a href="tel:+26662274000"
+            ><i class="fab fa-whatsapp"></i> +266 62274000</a
+          >
+          <a href="tel:+26680022000"
+            ><i class="fas fa-phone-alt"></i> +266 8002 2000</a
+          >
+          <a href="mailto:pr@lec.co.ls"
+            ><i class="fas fa-envelope"></i> pr@lec.co.ls</a
+          >
+        </div>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+        <div class="office-hours">
+          <i class="fas fa-clock"></i> Office hrs: Mon - Fri: 8:00 - 17:00
+        </div>
+      </div>
+    </header>
+    <div class="form-container">
+      <h2>LEC Application Form</h2>
+
+      <form id="application-form" enctype="multipart/form-data">
+        <!-- Personal Information -->
+        <label for="name">Clint Name:</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="surname">Client Surname:</label>
+        <input type="text" id="surname" name="surname" required />
+
+        <label for="address"> Client Address:</label>
+        <input type="text" id="address" name="address" required />
+
+        <!-- Type of Electrician -->
+        <label for="electrician-type">Type of Electrician:</label>
+        <select id="electrician-type" name="electrician_type" required>
+          <option value="residential">Residential</option>
+          <option value="commercial">Commercial</option>
+          <option value="industrial">Industrial</option>
+        </select>
+
+        <!-- Qualifications -->
+        <label for="qualifications">Qualifications:</label>
+        <select id="qualifications" name="qualifications" required>
+          <option value="electrician_certificate">
+            Electrician Certificate
+          </option>
+          <option value="master_electrician">Master Electrician</option>
+          <option value="lec">LEC (Licensed Electrical Contractor)</option>
+        </select>
+
+        <!-- Work License Number -->
+        <label for="license">Work License Number:</label>
+        <input type="text" id="license" name="license" required />
+
+        <!-- Years of Experience -->
+        <label for="experience">Years of Experience:</label>
+        <input
+          type="number"
+          id="experience"
+          name="experience"
+          min="0"
+          required
+        />
+
+        <!-- Availability -->
+        <label for="availability">Availability:</label>
+        <select id="availability" name="availability" required>
+          <option value="immediately">Available Immediately</option>
+          <option value="within_1_month">Within 1 Month</option>
+          <option value="within_3_months">Within 3 Months</option>
+        </select>
+
+        <!-- Work Specializations -->
+        <label for="specialization">Specializations:</label>
+        <div class="checkbox-group">
+          <label
+            ><input type="checkbox" name="specialization" value="wiring" />
+            Wiring</label
+          >
+          <label
+            ><input
+              type="checkbox"
+              name="specialization"
+              value="installations"
+            />
+            Installations</label
+          >
+          <label
+            ><input type="checkbox" name="specialization" value="repairs" />
+            Repairs</label
+          >
+          <label
+            ><input type="checkbox" name="specialization" value="maintenance" />
+            Maintenance</label
+          >
+        </div>
+
+        <!-- Preferred Work Locations -->
+        <label for="work-locations">Preferred Work Locations:</label>
+        <textarea
+          id="work-locations"
+          name="work_locations"
+          rows="3"
+          placeholder="List cities or regions"
+        ></textarea>
+
+        <!-- References -->
+        <label for="references">References (Optional):</label>
+        <textarea
+          id="references"
+          name="references"
+          rows="4"
+          placeholder="Provide names and contact details"
+        ></textarea>
+
+        <!-- Uploads -->
+        <label for="certificate">Upload Certificate:</label>
+        <input
+          type="file"
+          id="certificate"
+          name="certificate"
+          accept=".pdf, .jpg, .jpeg, .png"
+          required
+        />
+
+        <label for="id-upload">Upload ID:</label>
+        <input
+          type="file"
+          id="id-upload"
+          name="id_upload"
+          accept=".pdf, .jpg, .jpeg, .png"
+          required
+        />
+
+        <!-- Contact Information -->
+        <label for="email">ClientEmail:</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required />
+
+        <!-- Social Media/Portfolio Links -->
+        <label for="portfolio"
+          >Portfolio or Social Media Links (Optional):</label
+        >
+        <input
+          type="url"
+          id="portfolio"
+          name="portfolio"
+          placeholder="https://"
+        />
+
+        <!-- Terms and Conditions -->
+        <label
+          ><input type="checkbox" name="terms" required /> I agree to the
+          <a href="#">terms and conditions</a></label
+        >
+
+        <!-- Submit Button -->
+        <button type="submit">Submit</button>
+      </form>
+
+      <p style="text-align: center; margin-top: 20px">Wait for Approval</p>
+    </div>
+
+    <!-- Your web app's Firebase configuration -->
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyC7gCYSgUTGqKrdOhVG_7KG6Fs8EAI14so",
+        authDomain: "interact-cff6c.firebaseapp.com",
+        databaseURL: "https://interact-cff6c-default-rtdb.firebaseio.com",
+        projectId: "interact-cff6c",
+        storageBucket: "interact-cff6c.appspot.com",
+        messagingSenderId: "506210237677",
+        appId: "1:506210237677:web:e857f7c6fb02cb518d60e4",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Reference for database
+      const interactDB = firebase.database().ref("Electrician TestingForm");
+
+      // Handle form submission
+      document
+        .getElementById("application-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault(); // Prevent default form submission
+
+          // Get the input values
+          const name = document.getElementById("name").value;
+          const surname = document.getElementById("surname").value;
+          const address = document.getElementById("address").value;
+          const electricianType =
+            document.getElementById("electrician-type").value;
+          const qualifications =
+            document.getElementById("qualifications").value;
+          const license = document.getElementById("license").value;
+          const experience = document.getElementById("experience").value;
+          const availability = document.getElementById("availability").value;
+          const phone = document.getElementById("phone").value;
+          const email = document.getElementById("email").value;
+          const portfolio = document.getElementById("portfolio").value;
+          const workLocations = document.getElementById("work-locations").value;
+          const references = document.getElementById("references").value;
+
+          // Store the data in the database
+          const newFormEntry = interactDB.push();
+          newFormEntry
+            .set({
+              name: name,
+              surname: surname,
+              address: address,
+              electricianType: electricianType,
+              qualifications: qualifications,
+              license: license,
+              experience: experience,
+              availability: availability,
+              phone: phone,
+              email: email,
+              portfolio: portfolio,
+              workLocations: workLocations,
+              references: references,
+            })
+            .then(function () {
+              // Alert success
+              alert("Form submitted successfully!");
+              // Reset the form
+              document.getElementById("application-form").reset();
+            })
+            .catch(function (error) {
+              // Log and alert error
+              console.error("Error submitting form: ", error);
+              alert("Error submitting form. Please try again.");
+            });
+        });
+    </script>
+  </body>
+</html>

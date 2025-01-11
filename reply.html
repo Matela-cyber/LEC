@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Service Provider - Reply to Help Requests</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        background-color: #003366;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 20px auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #ffffff;
+        text-align: center;
+      }
+
+      .help-requests {
+        margin-bottom: 20px;
+      }
+
+      .request-item {
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+      }
+
+      .request-item p {
+        margin: 5px 0;
+      }
+
+      .request-item .response {
+        margin-top: 10px;
+        background-color: #e0ffe0;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #b2d8b2;
+      }
+
+      .response-form,
+      .direct-message-form {
+        display: none;
+        margin-top: 20px;
+      }
+
+      .response-form textarea,
+      .direct-message-form textarea {
+        width: 100%;
+        height: 100px;
+        margin-bottom: 10px;
+      }
+
+      .response-form button,
+      .direct-message-form button {
+        background-color: #003366;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      footer {
+        background-color: #003366;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        margin-top: 20px;
+      }
+
+      .back-button {
+        display: block;
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #003366;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+
+      /* Popup for response form */
+      .response-popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        width: 300px;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: -4px 4px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 8px 0 0 8px;
+        z-index: 1000;
+      }
+
+      .response-popup textarea {
+        width: 100%;
+        height: 100px;
+        margin-bottom: 10px;
+      }
+
+      .response-popup button {
+        background-color: #003366;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .hide-responded-btn {
+        display: block;
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: #003366;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .hide-responded-btn:hover {
+        background-color: #ffcc00;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <h1>Service Provider - Reply to Help Requests</h1>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+      <a href="AllForms.html" class="back-button">Back to All Forms</a>
+
+      <button id="toggleRespondedBtn" class="hide-responded-btn">
+        Hide Responded Requests
+      </button>
+
+      <div class="direct-message-form" id="directMessageForm">
+        <h3>Send Direct Message</h3>
+        <input
+          type="email"
+          id="recipientEmail"
+          placeholder="Recipient's email"
+        />
+        <textarea
+          id="directMessage"
+          placeholder="Write your message here"
+        ></textarea>
+        <button id="sendDirectMessageBtn">Send Message</button>
+      </div>
+
+      <h2>Help Requests</h2>
+      <div id="helpRequests" class="help-requests">
+        <!-- Help requests and responses will be displayed here -->
+      </div>
+
+      <!-- Popup response form -->
+      <div class="response-popup" id="responsePopup">
+        <h3>Respond to Request</h3>
+        <textarea
+          id="responseMessage"
+          placeholder="Write your response here"
+        ></textarea>
+        <button id="sendResponseBtn">Send Response</button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2024 Lesotho Electricity Company. All rights reserved.</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script>
+      // Firebase configuration
+      var firebaseConfig = {
+        apiKey: "YOUR_API_KEY", // Replace with your API key
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        databaseURL: "https://interact-cff6c-default-rtdb.firebaseio.com/",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID",
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      const database = firebase.database();
+      const helpRequestsDiv = document.getElementById("helpRequests");
+      const responsePopup = document.getElementById("responsePopup");
+      const responseMessage = document.getElementById("responseMessage");
+      const sendResponseBtn = document.getElementById("sendResponseBtn");
+      const toggleRespondedBtn = document.getElementById("toggleRespondedBtn");
+      let selectedRequestKey = "";
+      let hideResponded = false;
+
+      // Fetch help requests from Firebase
+      database.ref("help_requests").on("value", function (snapshot) {
+        helpRequestsDiv.innerHTML = ""; // Clear current requests
+        snapshot.forEach(function (childSnapshot) {
+          const requestKey = childSnapshot.key;
+          const request = childSnapshot.val();
+
+          // Skip responded requests if hideResponded is true
+          if (hideResponded && request.response) {
+            return;
+          }
+
+          // Create a div for each request
+          const requestDiv = document.createElement("div");
+          requestDiv.classList.add("request-item");
+          requestDiv.innerHTML = `
+            <p><strong>Name:</strong> ${request.name}</p>
+            <p><strong>Email:</strong> ${request.email}</p>
+            <p><strong>Message:</strong> ${request.message}</p>
+            ${
+              request.response
+                ? `<div class="response"><strong>Response:</strong> ${request.response.responseMessage} <br><small><em>Responded at: ${request.response.respondedAt}</em></small></div>`
+                : "<button onclick=\"showResponseForm('" +
+                  requestKey +
+                  "')\">Reply</button>"
+            }
+          `;
+          helpRequestsDiv.appendChild(requestDiv);
+        });
+      });
+
+      // Show response form popup
+      function showResponseForm(requestKey) {
+        selectedRequestKey = requestKey; // Set selected request key
+        responsePopup.style.display = "block";
+      }
+
+      // Send response to Firebase
+      sendResponseBtn.addEventListener("click", function () {
+        const response = responseMessage.value;
+        if (response.trim() !== "") {
+          database
+            .ref("help_requests/" + selectedRequestKey + "/response")
+            .set({
+              responseMessage: response,
+              respondedAt: new Date().toISOString(),
+            });
+
+          // Clear the response form and hide it
+          responseMessage.value = "";
+          responsePopup.style.display = "none";
+
+          alert("Response sent successfully.");
+        } else {
+          alert("Please write a response before sending.");
+        }
+      });
+
+      // Toggle responded requests visibility
+      toggleRespondedBtn.addEventListener("click", function () {
+        hideResponded = !hideResponded;
+        toggleRespondedBtn.innerText = hideResponded
+          ? "Show Responded Requests"
+          : "Hide Responded Requests";
+        // Trigger a new fetch to show/hide responded requests
+        database.ref("help_requests").once("value", function (snapshot) {
+          helpRequestsDiv.innerHTML = ""; // Clear current requests
+          snapshot.forEach(function (childSnapshot) {
+            const requestKey = childSnapshot.key;
+            const request = childSnapshot.val();
+
+            // Skip responded requests if hideResponded is true
+            if (hideResponded && request.response) {
+              return;
+            }
+
+            // Create a div for each request
+            const requestDiv = document.createElement("div");
+            requestDiv.classList.add("request-item");
+            requestDiv.innerHTML = `
+              <p><strong>Name:</strong> ${request.name}</p>
+              <p><strong>Email:</strong> ${request.email}</p>
+              <p><strong>Message:</strong> ${request.message}</p>
+              ${
+                request.response
+                  ? `<div class="response"><strong>Response:</strong> ${request.response.responseMessage} <br><small><em>Responded at: ${request.response.respondedAt}</em></small></div>`
+                  : "<button onclick=\"showResponseForm('" +
+                    requestKey +
+                    "')\">Reply</button>"
+              }
+            `;
+            helpRequestsDiv.appendChild(requestDiv);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

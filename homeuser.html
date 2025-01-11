@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LEC Services</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <style>
+      /* General styles */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+
+      /* Redesigned Header */
+      header {
+        background-color: red;
+        color: white;
+        padding: 10px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .header-top {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+      }
+
+      .logo img {
+        height: 50px;
+      }
+
+      .contact-info {
+        font-size: 14px;
+        text-align: left;
+        margin-top: 5px;
+      }
+
+      .contact-info a {
+        color: white;
+        text-decoration: none;
+        margin-right: 15px;
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 10px;
+        margin-top: 5px;
+      }
+
+      .social-icons a {
+        color: white;
+        text-decoration: none;
+      }
+
+      .office-hours {
+        font-size: 14px;
+        margin-top: 5px;
+      }
+
+      /* Main container */
+      .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .box {
+        background-color: #003366;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+      }
+
+      .box:hover {
+        background-color: red;
+        cursor: pointer;
+      }
+
+      .box a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+      }
+
+      .box img {
+        width: 50px;
+        margin-bottom: 10px;
+      }
+
+      /* Hidden content (steps to follow) */
+      .steps-section {
+        display: none;
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #f1f1f1;
+        border-radius: 10px;
+      }
+
+      .steps-section h3 {
+        color: #003366;
+        margin-bottom: 10px;
+      }
+
+      .steps-section ul {
+        list-style-type: disc;
+        margin-left: 20px;
+      }
+
+      /* Footer */
+      footer {
+        background-color: #003366;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        margin-top: 20px;
+      }
+
+      footer p {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header section -->
+    <header>
+      <div class="header-top">
+        <div class="logo">
+          <img src="logo.png" alt="LEC Logo" />
+        </div>
+        <div class="contact-info">
+          <a href="tel:+26662274000"
+            ><i class="fab fa-whatsapp"></i> +266 62274000</a
+          >
+          <a href="tel:+26680022000"
+            ><i class="fas fa-phone-alt"></i> +266 8002 2000</a
+          >
+          <a href="mailto:pr@lec.co.ls"
+            ><i class="fas fa-envelope"></i> pr@lec.co.ls</a
+          >
+        </div>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+        <div class="office-hours">
+          <i class="fas fa-clock"></i> Office hrs: Mon - Fri: 8:00 - 17:00
+        </div>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main>
+      <div class="container">
+        <div class="box" onclick="showSteps()">
+          <a href="#">Steps to follow</a>
+        </div>
+        <div class="box">
+          <a href="UserApplicationForm.html">Test Application</a>
+        </div>
+        <div class="box">
+          <a href="SurveyApp.html">Survey Application</a>
+        </div>
+        <div class="box">
+          <a href="seeInspectionStatus.html">View Testing Status</a>
+        </div>
+        <div class="box">
+          <a href="searchele.html">Search for electrician</a>
+        </div>
+        <div class="box">
+          <a href="payment.html">Make Payment</a>
+        </div>
+        <div class="box">
+          <a href="helpline.html">Help line communication</a>
+        </div>
+      </div>
+
+      <!-- Steps to follow section (hidden by default) -->
+      <div class="steps-section" id="stepsSection">
+        <h3>Steps to Get Electricity at Home</h3>
+        <ul>
+          <li>Search electrician.</li>
+          <li>
+            Submit an application form online or in-person at any LEC office
+            (Test Application).
+          </li>
+          <li>
+            Provide proof of residence (e.g. a lease agreement or utility bill)
+            (Test Application).
+          </li>
+          <li>Schedule a site inspection with an LEC technician.</li>
+          <li>Receive a quote for installation costs and make payment.</li>
+          <li>
+            After payment, installation will be scheduled within 7 working days.
+          </li>
+          <li>
+            Once installation is complete, electricity will be activated at your
+            residence.
+          </li>
+        </ul>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2024 Lesotho Electricity Company. All rights reserved.</p>
+    </footer>
+
+    <script>
+      // Function to toggle visibility of the "Steps to follow" section
+      function showSteps() {
+        const stepsSection = document.getElementById("stepsSection");
+        if (
+          stepsSection.style.display === "none" ||
+          stepsSection.style.display === ""
+        ) {
+          stepsSection.style.display = "block";
+        } else {
+          stepsSection.style.display = "none";
+        }
+      }
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        databaseURL: "YOUR_DATABASE_URL",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+  </body>
+</html>

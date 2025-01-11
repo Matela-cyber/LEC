@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name=" viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+
+      /* Redesigned Header */
+      header {
+        background-color: red;
+        color: white;
+        padding: 10px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .header-top {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+      }
+
+      .logo img {
+        height: 50px;
+      }
+
+      .contact-info {
+        font-size: 14px;
+        text-align: left;
+        margin-top: 5px;
+      }
+
+      .contact-info a {
+        color: white;
+        text-decoration: none;
+        margin-right: 15px;
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 10px;
+        margin-top: 5px;
+      }
+
+      .social-icons a {
+        color: white;
+        text-decoration: none;
+      }
+
+      .office-hours {
+        font-size: 14px;
+        margin-top: 5px;
+      }
+
+      .header {
+        background-color: #f2f2f2;
+        padding: 20px;
+        text-align: center;
+        position: relative;
+      }
+
+      .container {
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      input[type="text"] {
+        width: 40%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        background-color: #e31e24;
+        color: white;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-right: 10px;
+      }
+
+      button:hover {
+        background-color: #b71c1c;
+      }
+
+      table {
+        width: 80%;
+        margin: 20px auto;
+        border-collapse: collapse;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      /* Footer */
+      footer {
+        background-color: #003366;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        margin-top: 20px;
+      }
+
+      footer p {
+        margin: 0;
+      }
+    </style>
+    <title>Electrician</title>
+  </head>
+  <body>
+    <!-- Header section -->
+    <header>
+      <div class="header-top">
+        <div class="logo">
+          <img src="logo.png" alt="LEC Logo" />
+        </div>
+        <div class="contact-info">
+          <a href="tel:+26662274000"
+            ><i class="fab fa-whatsapp"></i> +266 62274000</a
+          >
+          <a href="tel:+26680022000"
+            ><i class="fas fa-phone-alt"></i> +266 8002 2000</a
+          >
+          <a href="mailto:pr@lec.co.ls"
+            ><i class="fas fa-envelope"></i> pr@lec.co.ls</a
+          >
+        </div>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+        <div class="office-hours">
+          <i class="fas fa-clock"></i> Office hrs: Mon - Fri: 8:00 - 17:00
+        </div>
+      </div>
+    </header>
+
+    <div class="header">
+      <h1>Search for Electrician</h1>
+    </div>
+
+    <div class="container">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search by Name or Location"
+      />
+      <br />
+      <button onclick="searchByName()">Search by Name</button>
+      <button onclick="searchByLocation()">Search by Location</button>
+      <button onclick="displayAll()">Display All</button>
+    </div>
+
+    <div id="resultTable"></div>
+
+    <!-- Firebase Configuration -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "YOUR_API_KEY", // Replace with your API key
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        databaseURL: "https://interact-cff6c-default-rtdb.firebaseio.com/",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID",
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Function to search electricians by name
+      function searchByName() {
+        const inputName = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        if (!inputName) {
+          alert("Please enter a name to search");
+          return;
+        }
+
+        // Fetch data from Firebase
+        const electricianRef = firebase.database().ref("electrician");
+        electricianRef.once("value", (snapshot) => {
+          const electricians = snapshot.val();
+          const electricianList = [];
+          for (let key in electricians) {
+            const electrician = electricians[key];
+            if (
+              (electrician.name &&
+                electrician.name.toLowerCase().includes(inputName)) ||
+              (electrician.Surname &&
+                electrician.Surname.toLowerCase().includes(inputName))
+            ) {
+              electricianList.push(electrician);
+            }
+          }
+
+          // Display results
+          if (electricianList.length > 0) {
+            displayTable(electricianList);
+          } else {
+            document.getElementById("resultTable").innerHTML =
+              "<p>No electricians found with the specified name.</p>";
+          }
+        });
+      }
+
+      // Function to search electricians by location
+      function searchByLocation() {
+        const inputLocation = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        if (!inputLocation) {
+          alert("Please enter a location to search");
+          return;
+        }
+
+        // Fetch data from Firebase
+        const electricianRef = firebase.database().ref("electrician");
+        electricianRef.once("value", (snapshot) => {
+          const electricians = snapshot.val();
+          const electricianList = [];
+          for (let key in electricians) {
+            const electrician = electricians[key];
+            if (
+              electrician.Address &&
+              electrician.Address.toLowerCase().includes(inputLocation)
+            ) {
+              electricianList.push(electrician);
+            }
+          }
+
+          // Display results
+          if (electricianList.length > 0) {
+            displayTable(electricianList);
+          } else {
+            document.getElementById("resultTable").innerHTML =
+              "<p>No electricians found in the specified location.</p>";
+          }
+        });
+      }
+
+      function displayAll() {
+        // Fetch data from Firebase
+        const electricianRef = firebase.database().ref("electrician");
+        electricianRef.once("value", (snapshot) => {
+          const electricians = snapshot.val();
+          const electricianList = [];
+          for (let key in electricians) {
+            electricianList.push(electricians[key]);
+          }
+          displayTable(electricianList);
+        });
+      }
+
+      function displayTable(data) {
+        if (!data || data.length === 0) {
+          document.getElementById("resultTable").innerHTML =
+            "<p>No results found</p>";
+          return;
+        }
+
+        let table = `<table>
+                      <tr>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>Phone Number</th>
+                        <th>Address</th>
+                        <th>Email</th>
+                      </tr>`;
+
+        data.forEach((electrician) => {
+          const name = electrician.name || ""; // Check if 'name' exists
+          const surname = electrician.Surname || ""; // Check if 'Surname' exists
+          const phone = electrician["Phone Number"] || "";
+          const address = electrician.Address || "";
+          const email = electrician.email || "";
+
+          table += `<tr>
+                      <td>${name}</td>
+                      <td>${surname}</td>
+                      <td>${phone}</td>
+                      <td>${address}</td>
+                      <td>${email}</td>
+                    </tr>`;
+        });
+
+        table += `</table>`;
+        document.getElementById("resultTable").innerHTML = table;
+      }
+    </script>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2024 Lesotho Electricity Company. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

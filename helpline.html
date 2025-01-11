@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LEC Help Line</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <style>
+      /* General styles */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+
+      /* Header section */
+      header {
+        background-color: red;
+        color: white;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo img {
+        height: 50px;
+      }
+
+      .contact-info {
+        font-size: 14px;
+        text-align: left;
+        margin-top: 5px;
+      }
+
+      .contact-info a {
+        color: white;
+        text-decoration: none;
+        margin-right: 15px;
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 10px;
+        margin-top: 5px;
+      }
+
+      .social-icons a {
+        color: white;
+        text-decoration: none;
+      }
+
+      .office-hours {
+        font-size: 14px;
+        margin-top: 5px;
+      }
+
+      /* Main content */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h1 {
+        color: #003366;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .help-form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .help-form label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+      }
+
+      .help-form input,
+      .help-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+
+      .help-form button {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .help-form button:hover {
+        background-color: #003366;
+      }
+
+      /* Response section */
+      .response-section {
+        margin-top: 20px;
+      }
+
+      .response-item {
+        background-color: #e9ecef;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+
+      /* Footer */
+      footer {
+        background-color: #003366;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        margin-top: 20px;
+      }
+
+      footer p {
+        margin: 0;
+      }
+
+      .success-message {
+        color: green;
+        text-align: center;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="logo">
+        <img src="logo.png" alt="LEC Logo" />
+      </div>
+      <div class="contact-info">
+        <a href="tel:+26662274000"
+          ><i class="fab fa-whatsapp"></i> +266 62274000</a
+        >
+        <a href="tel:+26680022000"
+          ><i class="fas fa-phone-alt"></i> +266 8002 2000</a
+        >
+        <a href="mailto:pr@lec.co.ls"
+          ><i class="fas fa-envelope"></i> pr@lec.co.ls</a
+        >
+      </div>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+      </div>
+      <div class="office-hours">
+        <i class="fas fa-clock"></i> Office hrs: Mon - Fri: 8:00 - 17:00
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main>
+      <div class="container">
+        <h1>Help Line Communication</h1>
+        <p>
+          If you have any questions or issues, please fill out the form below.
+          Our team will get back to you as soon as possible.
+        </p>
+
+        <form class="help-form" id="helpForm">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" required />
+
+          <label for="email">Your Email</label>
+          <input type="email" id="email" required />
+
+          <label for="message">Your Message</label>
+          <textarea id="message" rows="5" required></textarea>
+
+          <button type="submit">Submit</button>
+
+          <p id="successMessage" class="success-message"></p>
+        </form>
+
+        <!-- Response Section -->
+        <div class="response-section">
+          <h2>messages</h2>
+          <div id="responseList"></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2024 Lesotho Electricity Company. All rights reserved.</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script>
+      // Firebase configuration
+      var firebaseConfig = {
+        apiKey: "YOUR_API_KEY", // Replace with your API key
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        databaseURL: "https://interact-cff6c-default-rtdb.firebaseio.com/",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID",
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Reference to the database
+      const database = firebase.database();
+
+      // Get the form element
+      const helpForm = document.getElementById("helpForm");
+      const successMessage = document.getElementById("successMessage");
+      const responseList = document.getElementById("responseList");
+
+      // Function to fetch responses based on user email
+      function fetchResponses(userEmail) {
+        database.ref("help_requests").on("value", function (snapshot) {
+          responseList.innerHTML = ""; // Clear existing responses
+          snapshot.forEach(function (childSnapshot) {
+            const request = childSnapshot.val();
+            if (request.response && request.email === userEmail) {
+              const responseDiv = document.createElement("div");
+              responseDiv.classList.add("response-item");
+              responseDiv.innerHTML = `
+               
+                <p><strong>Message:</strong> ${request.message}</p>
+                <p><strong>Response:</strong> ${request.response.responseMessage} <br>
+                <small><em>Responded at: ${request.response.respondedAt}</em></small></p>
+              `;
+              responseList.appendChild(responseDiv);
+            }
+          });
+        });
+      }
+
+      // Form submit event listener
+      helpForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        // Get the input values
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const message = document.getElementById("message").value;
+
+        // Save the data to Firebase
+        const helpRequest = database.ref("help_requests").push();
+        helpRequest.set({
+          name: name,
+          email: email,
+          message: message,
+          timestamp: new Date().toISOString(),
+        });
+
+        // Show success message and clear the form
+        successMessage.textContent =
+          "Thank you for reaching out. We will get back to you shortly!";
+        helpForm.reset();
+
+        // Call fetchResponses with the user's email to filter responses
+        fetchResponses(email);
+      });
+
+      // Fetch responses on page load
+      fetchResponses(""); // Initially fetch all responses
+    </script>
+  </body>
+</html>

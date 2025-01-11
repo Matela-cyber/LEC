@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LEC Application Forms</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+      }
+      header {
+        background-color: red;
+        color: white;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo img {
+        height: 50px;
+      }
+
+      .contact-info {
+        font-size: 14px;
+      }
+
+      .contact-info a,
+      .social-icons a {
+        color: white;
+        text-decoration: none;
+        margin-right: 15px;
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 10px;
+      }
+
+      .office-hours {
+        font-size: 14px;
+      }
+
+      .container {
+        max-width: 100%vh;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        margin-bottom: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid #ccc;
+      }
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+      }
+      th {
+        background-color: #003366;
+        color: white;
+      }
+      a {
+        display: inline-block;
+        padding: 10px;
+        margin: 10px 0;
+        color: white;
+        text-align: center;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+      }
+      a:hover {
+        background-color: #0056b3;
+      }
+
+      /* Button styles */
+      .btn {
+        padding: 10px 15px; /* Increased padding for better touch targets */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 5px;
+        transition: background-color 0.3s, transform 0.2s; /* Added transition for transform */
+        font-weight: bold; /* Bold text for better visibility */
+        font-size: 14px; /* Font size for readability */
+      }
+      .center-form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Approve button */
+      .approve {
+        background-color: #28a745;
+        color: white;
+      }
+
+      /* Decline button */
+      .decline {
+        background-color: #dc3545;
+        color: white;
+      }
+
+      /* Button hover effects */
+      .approve:hover {
+        background-color: #218838; /* Darker green for hover effect */
+        transform: scale(1.05); /* Slightly enlarge on hover */
+      }
+
+      .decline:hover {
+        background-color: #c82333; /* Darker red for hover effect */
+        transform: scale(1.05); /* Slightly enlarge on hover */
+      }
+      nav ul {
+        list-style-type: none; /* Remove bullet points */
+        padding: 0;
+        margin: 0;
+        display: flex; /* Set items to be inline */
+        gap: 20px; /* Adds space between the list items */
+      }
+
+      nav ul li {
+        display: inline; /* Ensures each item is inline */
+      }
+
+      nav ul li a {
+        text-decoration: none; /* Remove underline from links */
+        color: #000; /* Set link color */
+        font-weight: bold; /* Bold text for visibility */
+      }
+
+      nav ul li a:hover {
+        color: #0056b3; /* Changes color on hover */
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <img src="logo.png" alt="LEC Logo" />
+      </div>
+      <div class="contact-info">
+        <a href="tel:+26662274000"
+          ><i class="fab fa-whatsapp"></i> +266 62274000</a
+        >
+        <a href="tel:+26680022000"
+          ><i class="fas fa-phone-alt"></i> +266 8002 2000</a
+        >
+        <a href="mailto:pr@lec.co.ls"
+          ><i class="fas fa-envelope"></i> pr@lec.co.ls</a
+        >
+      </div>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+      </div>
+      <div class="office-hours">
+        <i class="fas fa-clock"></i> Office hrs: Mon - Fri: 8:00 - 17:00
+      </div>
+    </header>
+
+    <nav>
+      <ul>
+        <li><a href="#user-application">User Application for Testing</a></li>
+        <li><a href="#electrician-testing">Electrician Testing Form</a></li>
+        <li><a href="#survey-form">Survey Form Data</a></li>
+        <li><a href="reply.html">Helpline Request</a></li>
+      </ul>
+    </nav>
+    <div class="center-form"><h1>LEC Application Forms</h1></div>
+
+    <div class="container">
+      <h2>Available Forms Data</h2>
+
+      <div id="user-application" class="table-section">
+        <h3>User Application for Testing</h3>
+        <table id="user-application-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- User application data will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+
+      <div id="electrician-testing" class="table-section hidden">
+        <h3>Electrician Testing Form</h3>
+        <table id="electrician-testing-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Experience</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Electrician testing data will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+
+      <div id="survey-form" class="table-section hidden">
+        <h3>Survey Form Data</h3>
+        <table id="survey-form-table">
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>District</th>
+              <th>Applicant Type</th>
+              <th>Status</th>
+              <th>Rooms</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Survey form data will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer>
+      <p>
+        &copy; 2024 Lesotho Electricity Company | <a href="#">Privacy Policy</a>
+      </p>
+    </footer>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script>
+      // Your Firebase configuration
+      const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        databaseURL: "https://interact-cff6c-default-rtdb.firebaseio.com/",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const database = firebase.database();
+
+      // Function to fetch and display User Application for Testing data
+      function displayUserApplicationData() {
+        const userApplicationTableBody = document
+          .getElementById("user-application-table")
+          .getElementsByTagName("tbody")[0];
+        database.ref("UserApplicationForTesting").on("value", (snapshot) => {
+          const applications = snapshot.val();
+          userApplicationTableBody.innerHTML = ""; // Clear existing content
+
+          if (applications) {
+            for (const id in applications) {
+              const application = applications[id];
+              const row = userApplicationTableBody.insertRow();
+              row.insertCell(0).textContent = application.name || "N/A";
+              row.insertCell(1).textContent = application.email || "N/A";
+
+              const actionsCell = row.insertCell(2);
+              actionsCell.innerHTML = `
+                        <button class="btn approve" onclick="approveUser('${id}')">Approve</button>
+                        <button class="btn decline" onclick="declineUser('${id}')">Decline</button>
+                    `;
+            }
+          } else {
+            userApplicationTableBody.innerHTML =
+              '<tr><td colspan="3">No applications found.</td></tr>';
+          }
+        });
+      }
+
+      // Function to approve User Application
+      function approveUser(id) {
+        database
+          .ref("UserApplicationForTesting/" + id)
+          .update({ status: "Approved" });
+        alert("User application approved!");
+      }
+
+      // Function to decline User Application
+      function declineUser(id) {
+        database
+          .ref("UserApplicationForTesting/" + id)
+          .update({ status: "Declined" });
+        alert("User application declined!");
+      }
+
+      // Function to fetch and display Electrician Testing Form data
+      function displayElectricianTestingData() {
+        const electricianTestingTableBody = document
+          .getElementById("electrician-testing-table")
+          .getElementsByTagName("tbody")[0];
+        database.ref("Electrician TestingForm").on("value", (snapshot) => {
+          const electricians = snapshot.val();
+          electricianTestingTableBody.innerHTML = ""; // Clear existing content
+
+          if (electricians) {
+            for (const id in electricians) {
+              const electrician = electricians[id];
+              const row = electricianTestingTableBody.insertRow();
+              row.insertCell(0).textContent = electrician.name || "N/A";
+              row.insertCell(1).textContent = electrician.address || "N/A";
+              row.insertCell(2).textContent = electrician.experience || "N/A";
+
+              const actionsCell = row.insertCell(3);
+              actionsCell.innerHTML = `
+                        <button class="btn approve" onclick="approveElectrician('${id}')">Approve</button>
+                        <button class="btn decline" onclick="declineElectrician('${id}')">Decline</button>
+                    `;
+            }
+          } else {
+            electricianTestingTableBody.innerHTML =
+              '<tr><td colspan="4">No electricians found.</td></tr>';
+          }
+        });
+      }
+
+      // Function to approve Electrician Testing Form
+      function approveElectrician(id) {
+        database
+          .ref("Electrician TestingForm/" + id)
+          .update({ status: "Approved" });
+        alert("Electrician testing form approved!");
+      }
+
+      // Function to decline Electrician Testing Form
+      function declineElectrician(id) {
+        database
+          .ref("Electrician TestingForm/" + id)
+          .update({ status: "Declined" });
+        alert("Electrician testing form declined!");
+      }
+
+      // Function to fetch and display Survey Form data
+      function displaySurveyFormData() {
+        const surveyFormTableBody = document
+          .getElementById("survey-form-table")
+          .getElementsByTagName("tbody")[0];
+        database.ref("Survey Form").on("value", (snapshot) => {
+          const surveys = snapshot.val();
+          surveyFormTableBody.innerHTML = ""; // Clear existing content
+
+          if (surveys) {
+            for (const id in surveys) {
+              const survey = surveys[id];
+              const row = surveyFormTableBody.insertRow();
+              row.insertCell(0).textContent = survey.fullname || "N/A";
+              row.insertCell(1).textContent = survey.email || "N/A";
+              row.insertCell(2).textContent = survey.phone || "N/A";
+              row.insertCell(3).textContent = survey.district || "N/A";
+              row.insertCell(4).textContent = survey.applicantType || "N/A";
+              row.insertCell(5).textContent = survey.status || "N/A";
+              row.insertCell(6).textContent = survey.rooms || "N/A";
+
+              const actionsCell = row.insertCell(7);
+              actionsCell.innerHTML = `
+                        <button class="btn approve" onclick="approveSurvey('${id}')">Approve</button>
+                        <button class="btn decline" onclick="declineSurvey('${id}')">Decline</button>
+                    `;
+            }
+          } else {
+            surveyFormTableBody.innerHTML =
+              '<tr><td colspan="8">No surveys found.</td></tr>';
+          }
+        });
+      }
+
+      // Function to approve Survey Form
+      function approveSurvey(id) {
+        database.ref("Survey Form/" + id).update({ status: "Approved" });
+        alert("Survey form approved!");
+      }
+
+      // Function to decline Survey Form
+      function declineSurvey(id) {
+        database.ref("Survey Form/" + id).update({ status: "Declined" });
+        alert("Survey form declined!");
+      }
+
+      // Call functions to display data
+      displayUserApplicationData();
+      displayElectricianTestingData();
+      displaySurveyFormData();
+      // Function to show the selected table and hide others
+      function showTable(tableId) {
+        const sections = document.querySelectorAll(".table-section");
+        sections.forEach((section) => {
+          if (section.id === tableId) {
+            section.classList.remove("hidden"); // Show the selected table
+          } else {
+            section.classList.add("hidden"); // Hide other tables
+          }
+        });
+      }
+
+      // Call functions to display data when the respective section is visible
+      displayUserApplicationData();
+      displayElectricianTestingData();
+      displaySurveyFormData();
+    </script>
+  </body>
+</html>

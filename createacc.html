@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: white;
+        text-align: center;
+      }
+
+      .contact-info {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .signup-form {
+        margin-top: 50px;
+      }
+      .signup-form1 {
+        background-color: #003366;
+        padding: 20px;
+        border-radius: 8px;
+        width: 300px;
+        margin: 0 auto;
+      }
+      header {
+        background-color: red;
+        color: white;
+        padding: 10px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .header-top {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+      }
+
+      .logo img {
+        height: 50px;
+      }
+
+      .contact-info {
+        font-size: 14px;
+        text-align: left;
+        margin-top: 5px;
+      }
+
+      .contact-info a {
+        color: white;
+        text-decoration: none;
+        margin-right: 15px;
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 10px;
+        margin-top: 5px;
+      }
+
+      .social-icons a {
+        color: white;
+        text-decoration: none;
+      }
+
+      .office-hours {
+        font-size: 14px;
+        margin-top: 5px;
+      }
+
+      form {
+        text-align: left;
+      }
+
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+
+      .password-container {
+        position: relative;
+      }
+
+      .password-container input {
+        padding-right: 40px; /* space for eye icon */
+      }
+      i {
+        color: #ccc;
+      }
+
+      /* Style for the eye icon */
+      .password-container i {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
+
+      .create-btn {
+        background-color: #ff0000;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 18px;
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .create-btn:hover {
+        background-color: #cc0000;
+      }
+
+      /* Remove underline from the link */
+      a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-top">
+        <div class="logo">
+          <img src="logo.png" alt="LEC Logo" />
+        </div>
+        <div class="contact-info">
+          <a href="tel:+26662274000"
+            ><i class="fab fa-whatsapp"></i> +266 62274000</a
+          >
+          <a href="tel:+26680022000"
+            ><i class="fas fa-phone-alt"></i> +266 8002 2000</a
+          >
+          <a href="mailto:pr@lec.co.ls"
+            ><i class="fas fa-envelope"></i> pr@lec.co.ls</a
+          >
+        </div>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+        <div class="office-hours">
+          <i class="fas fa-clock"></i> Office hrs: Mon - Fri: 8:00 - 17:00
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="signup-form">
+        <form id="signup-form" class="signup-form1">
+          <input type="text" id="email" placeholder="Number/email" required />
+
+          <!-- Password Field with Eye Icon Inside the Input -->
+          <div class="password-container">
+            <input
+              type="password"
+              id="password"
+              placeholder="Set password"
+              required
+            />
+            <i class="far fa-eye" id="togglePassword1"></i>
+          </div>
+
+          <div class="password-container">
+            <input
+              type="password"
+              id="confirm-password"
+              placeholder="Confirm password"
+              required
+            />
+            <i class="far fa-eye" id="togglePassword2"></i>
+          </div>
+
+          <a href="customerlogin.html">
+            <button type="submit" class="create-btn" id="create">
+              Create
+            </button></a
+          >
+        </form>
+      </div>
+    </main>
+
+    <!-- Firebase JS SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+    <script>
+      // Toggle password visibility
+      const togglePassword1 = document.querySelector("#togglePassword1");
+      const password = document.querySelector("#password");
+      togglePassword1.addEventListener("click", function () {
+        const type =
+          password.getAttribute("type") === "password" ? "text" : "password";
+        password.setAttribute("type", type);
+        this.classList.toggle("fa-eye-slash");
+      });
+
+      const togglePassword2 = document.querySelector("#togglePassword2");
+      const confirmPassword = document.querySelector("#confirm-password");
+      togglePassword2.addEventListener("click", function () {
+        const type =
+          confirmPassword.getAttribute("type") === "password"
+            ? "text"
+            : "password";
+        confirmPassword.setAttribute("type", type);
+        this.classList.toggle("fa-eye-slash");
+      });
+    </script>
+
+    <!-- External JavaScript file -->
+    <script src="mail.js"></script>
+  </body>
+</html>

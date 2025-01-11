@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inspector Login</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: white;
+        text-align: center;
+      }
+      .login-form {
+        margin-top: 50px;
+      }
+      .login-form1 {
+        background-color: #003366;
+        width: 300px;
+        padding: 20px;
+        margin: 0 auto;
+        border-radius: 8px;
+      }
+      header {
+        background-color: red;
+        color: white;
+        padding: 10px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header-top {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+      }
+      .logo img {
+        height: 50px;
+      }
+      .contact-info {
+        font-size: 14px;
+        text-align: left;
+        margin-top: 5px;
+      }
+      .contact-info a {
+        color: white;
+        text-decoration: none;
+        margin-right: 15px;
+      }
+      .social-icons {
+        display: flex;
+        gap: 10px;
+        margin-top: 5px;
+      }
+      .social-icons a {
+        color: white;
+        text-decoration: none;
+      }
+      .office-hours {
+        font-size: 14px;
+        margin-top: 5px;
+      }
+      form {
+        display: inline-block;
+        text-align: left;
+        padding: 20px;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+      }
+      label {
+        display: block;
+        margin: 10px 0 5px;
+        font-size: 18px;
+        color: #0000ff;
+      }
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+      .login-btn {
+        background-color: #ff0000;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 18px;
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+      }
+      .login-btn:hover {
+        background-color: #cc0000;
+      }
+      .password-wrapper {
+        position: relative;
+      }
+      .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
+      .create-account-link {
+        margin-top: 15px;
+        color: #0000ff;
+        font-size: 16px;
+      }
+      .create-account-link a {
+        color: #ff0000;
+        text-decoration: none;
+      }
+      .create-account-link a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-top">
+        <div class="logo">
+          <img src="logo.png" alt="LEC Logo" />
+        </div>
+        <div class="contact-info">
+          <a href="tel:+26662274000"
+            ><i class="fab fa-whatsapp"></i> +266 62274000</a
+          >
+          <a href="tel:+26680022000"
+            ><i class="fas fa-phone-alt"></i> +266 8002 2000</a
+          >
+          <a href="mailto:pr@lec.co.ls"
+            ><i class="fas fa-envelope"></i> pr@lec.co.ls</a
+          >
+        </div>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+        <div class="office-hours">
+          <i class="fas fa-clock"></i> Office hrs: Mon - Fri: 8:00 - 17:00
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="login-form">
+        <form id="login-form" class="login-form1">
+          <input type="text" id="login-email" placeholder="Email" required />
+          <div class="password-wrapper">
+            <input
+              type="password"
+              id="login-password"
+              placeholder="Enter password"
+              required
+            />
+            <i class="far fa-eye toggle-password" id="togglePassword"></i>
+          </div>
+          <button type="submit" class="login-btn" id="login">Login</button>
+        </form>
+      </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "YOUR_API_KEY", // Replace with your API key
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        databaseURL: "https://interact-cff6c-default-rtdb.firebaseio.com/",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID",
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Add an event listener to the login form
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault(); // Prevent the default form submission
+
+          // Get the input values
+          const email = document.getElementById("login-email").value;
+          const password = document.getElementById("login-password").value;
+
+          // Fetch inspector credentials from Firebase
+          const inspectorRef = firebase.database().ref("inspectors");
+          inspectorRef.once("value", (snapshot) => {
+            const inspectors = snapshot.val();
+            let loginSuccess = false;
+
+            // Check if the email and password match any inspector
+            for (let key in inspectors) {
+              const inspector = inspectors[key];
+              if (
+                inspector.email === email &&
+                inspector.password === password
+              ) {
+                loginSuccess = true;
+                break;
+              }
+            }
+
+            if (loginSuccess) {
+              // Redirect to inspection page
+              window.location.href = "inspection.html";
+            } else {
+              // Login failed
+              alert("Invalid email or password. Please try again.");
+            }
+          });
+        });
+
+      // Eye icon toggle functionality
+      const togglePassword = document.querySelector("#togglePassword");
+      const passwordInput = document.querySelector("#login-password");
+
+      togglePassword.addEventListener("click", function () {
+        // Toggle the type attribute
+        const type =
+          passwordInput.getAttribute("type") === "password"
+            ? "text"
+            : "password";
+        passwordInput.setAttribute("type", type);
+
+        // Toggle the eye icon
+        this.classList.toggle("fa-eye-slash");
+      });
+    </script>
+  </body>
+</html>
