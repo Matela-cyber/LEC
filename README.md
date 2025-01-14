@@ -1,5 +1,5 @@
 # Electricity Registration and Billing System
-https://matela-cyber.github.io/electricity-registeration-and-billing-system/
+try it: https://matela-cyber.github.io/electricity-registeration-and-billing-system/
 
 A web-based application designed to streamline customer registration, service application, inspection scheduling, and billing within an electricity distribution company. This system leverages a NoSQL database for scalable and flexible data management.
 
@@ -157,6 +157,9 @@ electricity-registeration-and-billing-system/
 ├── seeInspectionStatus.html
 └── README.md
 ```
+## Screen shots
+
+<img src="glec.png" alt="Lec App" width="850" height="500">
 
 ## Contributing
 
